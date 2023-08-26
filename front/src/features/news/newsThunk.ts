@@ -27,6 +27,14 @@ export const createPost = createAsyncThunk<void, INewsMutation>(
     }
 );
 
+export const fetchOneNews = createAsyncThunk<INews, string>(
+    'news/fetchOnePost',
+    async (id) => {
+        const response = await axiosApi.get<INews>('/news/' + id);
+        return response.data;
+    }
+);
+
 export const deletePost = createAsyncThunk<void, string>(
     'news/deleteOnePost',
     async (id) => {

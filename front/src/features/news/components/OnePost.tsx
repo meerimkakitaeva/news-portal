@@ -5,8 +5,10 @@ import {useAppDispatch, useAppSelector} from "../../../app/hooks";
 import {deletePost, fetchNews} from "../newsThunk";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ArrowCircleRightOutlinedIcon from '@mui/icons-material/ArrowCircleRightOutlined';
+import {Link} from "react-router-dom";
 
 const dayjs = require('dayjs');
+
 
 interface Props {
     id: string,
@@ -61,7 +63,10 @@ const OnePost: React.FC<Props> = ({id, title, datetime, image}) => {
                             </Button>
                         </Grid>
                         <Grid item>
-                            <Button>
+                            <Button
+                                component={Link}
+                                to={'/news/' + id}
+                            >
                                 <ArrowCircleRightOutlinedIcon />
                             </Button>
                         </Grid>
