@@ -6,10 +6,9 @@ import commentsRouter from "./routers/comments";
 
 const app = express();
 const port = 8000;
-app.use(express.static('public'));
 app.use(cors());
-
 app.use(express.json());
+app.use(express.static('public'));
 app.use('/news', newsRouter);
 app.use('/comments', commentsRouter);
 

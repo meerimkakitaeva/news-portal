@@ -2,6 +2,7 @@ import express from 'express';
 import mysqlDb from "../mysqlDb";
 import {OkPacketParams} from "mysql2/index";
 import {INews, INewsAllFields, INewsMutation} from "../types";
+import {imagesUpload} from "../multer";
 
 const newsRouter = express.Router();
 
@@ -32,18 +33,18 @@ newsRouter.get('/:id', async (req, res) => {
 });
 
 
-newsRouter.post('/', async (req, res) => {
+newsRouter.post('/',imagesUpload.single('image'),  async (req, res) => {
     try {
-        if (!req.body.title|| !req.body.content) {
-            return res.status(400).send({error: "title and content are required"});
+        if (!req.body.title || !req.body.content) {
+            return res.status(400).send({ error: "Title and content are required" });
         }
 
         const connection = mysqlDb.getConnection();
 
-        const post: INewsMutation = {
+        const post = {
             title: req.body.title,
             content: req.body.content,
-            image: req.body.image,
+            image: req.file ? req.file.filename : null,
         };
 
         const result = await connection.query(
@@ -61,7 +62,6 @@ newsRouter.post('/', async (req, res) => {
         res.send(e);
     }
 });
-
 newsRouter.delete('/:id', async (req, res) => {
     const connection = mysqlDb.getConnection();
     try {
