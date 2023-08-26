@@ -31,6 +31,7 @@ const FullPost = () => {
                     id={comment.id}
                     author={comment.author}
                     content={comment.content}
+                    news_id={id}
                 />
             </>
         ));
@@ -55,25 +56,29 @@ const FullPost = () => {
                         <CardActionArea>
                             <CardContent>
                                 <Grid container alignItems="center">
-                                    <Grid item xs>
-                                        <Typography gutterBottom component="div" sx={{ fontSize: '20px' }}>
-                                            {post.title}
-                                        </Typography>
-                                        <Typography gutterBottom component="div" sx={{ color: 'gray', fontSize: '12px' }}>
-                                            {dayjs(post.datetime).format('YYYY-MM-DD HH:mm:ss')}
-                                        </Typography>
-                                        <Typography gutterBottom component="div" >
-                                            {post.content}
-                                        </Typography>
-                                        {cardImage && (
-                                            <Grid item sx={{ marginLeft: '10px' }}>
-                                                <CardMedia
-                                                    component="img"
-                                                    image={cardImage}
-                                                    sx={{ width: '70px', height: '70px' }}
-                                                />
-                                            </Grid>
-                                        )}
+                                    <Grid item xs sx={{display: "flex", justifyContent: "space-between"}}>
+                                        <Grid item xs>
+                                            <Typography gutterBottom component="div" sx={{ fontSize: '20px' }}>
+                                                {post.title}
+                                            </Typography>
+                                            <Typography gutterBottom component="div" sx={{ color: 'gray', fontSize: '12px' }}>
+                                                {dayjs(post.datetime).format('YYYY-MM-DD HH:mm:ss')}
+                                            </Typography>
+                                            <Typography gutterBottom component="div" >
+                                                {post.content}
+                                            </Typography>
+                                        </Grid>
+                                        <Grid>
+                                            {cardImage && (
+                                                <Grid item sx={{ marginLeft: '10px' }}>
+                                                    <CardMedia
+                                                        component="img"
+                                                        image={cardImage}
+                                                        sx={{ width: '300px', height: '300px' }}
+                                                    />
+                                                </Grid>
+                                            )}
+                                        </Grid>
                                     </Grid>
                                 </Grid>
                             </CardContent>

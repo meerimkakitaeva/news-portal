@@ -21,6 +21,7 @@ const News = () => {
                 key={post.id}
                 title={post.title}
                 datetime={post.datetime}
+                image={post.image}
             />
         ));
     }
