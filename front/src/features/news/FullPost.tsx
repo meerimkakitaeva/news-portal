@@ -5,6 +5,11 @@ import {Card, CardActionArea, CardContent, CardMedia, Container, Grid, Typograph
 import dayjs from "dayjs";
 import {selectOnePost} from "./newsSlice";
 import {fetchOneNews} from "./newsThunk";
+import CircularProgress from "@mui/material/CircularProgress";
+import {selectComments, selectCommentsLoading} from "../comments/commentsSlice";
+import OneComment from "../comments/components/OneComment";
+import {fetchComments} from "../comments/commentsThunk";
+import CommentForm from "../comments/components/CommentForm";
 
 
 const FullPost = () => {
@@ -12,8 +17,28 @@ const FullPost = () => {
     const dispatch = useAppDispatch();
     const post = useAppSelector(selectOnePost);
 
+    const items = useAppSelector(selectComments);
+    const fetchLoading = useAppSelector(selectCommentsLoading);
+
+    let comments: React.ReactNode = <CircularProgress />;
+
+    if (!fetchLoading) {
+        const newComments = [...items].reverse();
+        comments = newComments.map((comment) => (
+            <>
+                <OneComment
+                    key={comment.id}
+                    id={comment.id}
+                    author={comment.author}
+                    content={comment.content}
+                />
+            </>
+        ));
+    }
+
     useEffect(() => {
         dispatch(fetchOneNews(id));
+        dispatch(fetchComments(id));
     }, [dispatch]);
 
     let cardImage = '';
@@ -54,6 +79,14 @@ const FullPost = () => {
                             </CardContent>
                         </CardActionArea>
                     </Card>
+                    <Container maxWidth="sm" >
+                        {comments && (
+                            <Grid item xs={12} >
+                                {comments}
+                            </Grid>
+                        )}
+                        <CommentForm news_id={id}/>
+                    </Container>
                 </Container>
             }
         </>

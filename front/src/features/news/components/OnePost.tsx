@@ -9,7 +9,6 @@ import {Link} from "react-router-dom";
 
 const dayjs = require('dayjs');
 
-
 interface Props {
     id: string,
     title: string,
@@ -73,6 +72,7 @@ const OnePost: React.FC<Props> = ({id, title, datetime, image}) => {
                     </Grid>
                 </CardContent>
             </CardActionArea>
+
         </Card>
     );
 };

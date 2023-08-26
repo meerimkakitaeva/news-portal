@@ -11,3 +11,16 @@ export interface INewsMutation {
     content: string,
     image?: string | null,
 }
+
+export interface IComment {
+    id: string,
+    news_id: string,
+    author: string ,
+    content: string,
+}
+
+export interface ICommentMutation {
+    news_id: string,
+    author: string | null,
+    content: string,
+}
