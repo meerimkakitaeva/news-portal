@@ -48,7 +48,7 @@ commentsRouter.post('/', async (req, res) => {
 
     const comment: ICommentMutation = {
       news_id: req.body.news_id,
-      author: req.body.author = null ? req.body.author : 'Anonymous',
+      author: req.body.author === null ? 'Anonymous' : req.body.author,
       content: req.body.content,
     };
 
