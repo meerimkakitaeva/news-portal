@@ -6,11 +6,13 @@ import {useAppDispatch, useAppSelector} from '../../../app/hooks';
 import FileInput from "../../../components/UI/FileInput/FileInput";
 import {selectCreateLoading} from "../newsSlice";
 import {INewsMutation} from "../../../types";
-import {createPost, fetchNews} from "../newsThunk";
+import {createPost} from "../newsThunk";
+import {useNavigate} from "react-router";
 
 const NewsForm = () => {
     const dispatch = useAppDispatch();
     const loading = useAppSelector(selectCreateLoading);
+    const navigate= useNavigate();
 
     const [state, setState] = useState<INewsMutation>({
         title: '',
@@ -31,7 +33,7 @@ const NewsForm = () => {
         e.preventDefault();
 
         await dispatch(createPost(state));
-        await dispatch(fetchNews());
+        navigate('/');
     };
 
     const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {

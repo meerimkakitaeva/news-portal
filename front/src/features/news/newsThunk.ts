@@ -27,6 +27,12 @@ export const createPost = createAsyncThunk<void, INewsMutation>(
     }
 );
 
+export const deletePost = createAsyncThunk<void, string>(
+    'news/deleteOnePost',
+    async (id) => {
+        await axiosApi.delete('/news/' + id);
+    }
+);
 
 
 

@@ -1,14 +1,30 @@
 import React from 'react';
-import {Card, CardActionArea, CardContent, CardMedia, Grid, Typography} from '@mui/material';
+import {Button, Card, CardActionArea, CardContent, CardMedia, Grid, Typography} from '@mui/material';
+import {selectDeleteLoading} from "../newsSlice";
+import {useAppDispatch, useAppSelector} from "../../../app/hooks";
+import {deletePost, fetchNews} from "../newsThunk";
+import DeleteIcon from "@mui/icons-material/Delete";
+import ArrowCircleRightOutlinedIcon from '@mui/icons-material/ArrowCircleRightOutlined';
+
 const dayjs = require('dayjs');
 
 interface Props {
+    id: string,
     title: string,
     datetime: string,
     image?: string | null;
 }
 
-const OnePost: React.FC<Props> = ({title, datetime, image}) => {
+const OnePost: React.FC<Props> = ({id, title, datetime, image}) => {
+    const dispatch = useAppDispatch();
+    const deleteLoading = useAppSelector(selectDeleteLoading);
+
+    const onDelete = async () => {
+        if (window.confirm('Delete this post ?')) {
+            await dispatch(deletePost(id));
+            await dispatch(fetchNews());
+        }
+    };
 
     const productImage = image ? `http://localhost:8000/${image}` : '';
     const newDate = dayjs(datetime).format('YYYY-MM-DD HH:mm:ss');
@@ -16,17 +32,39 @@ const OnePost: React.FC<Props> = ({title, datetime, image}) => {
     return (
         <Card sx={{ mb: 3 }}>
             <CardActionArea>
-                <CardContent sx={{ display: 'flex'}}>
-                    <Grid>
-                        {productImage && <Grid sx={{marginLeft: '10px'}}>
-                            <CardMedia component="img" image={productImage} sx={{ width: '70px', height: '70px' }} />
-                        </Grid>}
-                        <Typography gutterBottom  component="div" sx={{fontSize: '20px' }}>
-                            { title } ...
-                        </Typography>
-                        <Typography gutterBottom component="div" sx={{ color: 'gray', fontSize: '12px' }}>
-                            { newDate }
-                        </Typography>
+                <CardContent>
+                    <Grid container alignItems="center">
+                        {productImage && (
+                            <Grid item sx={{ marginLeft: '10px' }}>
+                                <CardMedia
+                                    component="img"
+                                    image={productImage}
+                                    sx={{ width: '70px', height: '70px' }}
+                                />
+                            </Grid>
+                        )}
+                        <Grid item xs>
+                            <Typography gutterBottom component="div" sx={{ fontSize: '20px' }}>
+                                {title} ...
+                            </Typography>
+                            <Typography gutterBottom component="div" sx={{ color: 'gray', fontSize: '12px' }}>
+                                {newDate}
+                            </Typography>
+                        </Grid>
+                        <Grid item>
+                            <Button
+                                onClick={onDelete}
+                                disabled={deleteLoading ? deleteLoading === id : false}
+                                startIcon={<DeleteIcon />}
+                            >
+                                Delete
+                            </Button>
+                        </Grid>
+                        <Grid item>
+                            <Button>
+                                <ArrowCircleRightOutlinedIcon />
+                            </Button>
+                        </Grid>
                     </Grid>
                 </CardContent>
             </CardActionArea>

@@ -17,6 +17,7 @@ const News = () => {
         const newPosts = [...items].reverse();
         news = newPosts.map((post) => (
             <OnePost
+                id={post.id}
                 key={post.id}
                 title={post.title}
                 datetime={post.datetime}
